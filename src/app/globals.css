@@ -1,26 +1,234 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-body: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-head: "Trebuchet MS", "Gill Sans", "Avenir Next", sans-serif;
+  --font-code: "Menlo", "Consolas", "Courier New", monospace;
+  --background: #070f1c;
+  --foreground: #f4f2ea;
+  --muted: #98a8be;
+  --line: rgba(121, 157, 195, 0.35);
+  --surface: rgba(14, 25, 41, 0.72);
+  --surface-strong: rgba(17, 31, 50, 0.95);
+  --accent: #ff7f43;
+  --accent-2: #39d9d3;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-head);
+  --font-mono: var(--font-code);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+}
+
+.portfolio-shell {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 16% -8%, rgba(57, 217, 211, 0.18), transparent 42%),
+    radial-gradient(circle at 88% 14%, rgba(255, 127, 67, 0.2), transparent 48%),
+    linear-gradient(160deg, #070f1c 0%, #0b1629 45%, #101f35 100%);
+}
+
+.parallax-mesh {
+  position: absolute;
+  inset: -15% -8%;
+  background-image:
+    radial-gradient(circle at 26% 24%, rgba(255, 255, 255, 0.08), transparent 36%),
+    radial-gradient(circle at 70% 65%, rgba(57, 217, 211, 0.1), transparent 42%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(148, 175, 212, 0.08) 0,
+      rgba(148, 175, 212, 0.08) 1px,
+      transparent 1px,
+      transparent 24px
+    );
+  opacity: 0.35;
+  will-change: transform;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(4px);
+  pointer-events: none;
+  animation: drift 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+.orb-cyan {
+  top: -10rem;
+  right: 6%;
+  height: 24rem;
+  width: 24rem;
+  background: radial-gradient(circle at 35% 35%, rgba(57, 217, 211, 0.58), rgba(57, 217, 211, 0.06) 66%);
+}
+
+.orb-warm {
+  top: 24rem;
+  left: -10rem;
+  height: 22rem;
+  width: 22rem;
+  background: radial-gradient(circle at 42% 42%, rgba(255, 127, 67, 0.46), rgba(255, 127, 67, 0.05) 70%);
+  animation-delay: -5s;
+}
+
+.orb-small {
+  bottom: 18rem;
+  right: 18%;
+  height: 14rem;
+  width: 14rem;
+  background: radial-gradient(circle at 40% 40%, rgba(255, 192, 125, 0.42), rgba(255, 192, 125, 0.04) 68%);
+  animation-delay: -2.5s;
+}
+
+.glass-panel {
+  border: 1px solid var(--line);
+  background: linear-gradient(148deg, var(--surface-strong) 0%, var(--surface) 100%);
+  box-shadow: 0 22px 56px rgba(3, 8, 15, 0.45);
+}
+
+.glow-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-card::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 127, 67, 0),
+    rgba(255, 127, 67, 0.18),
+    rgba(57, 217, 211, 0.2),
+    rgba(57, 217, 211, 0)
+  );
+  transform: translateX(-62%) rotate(8deg);
+  pointer-events: none;
+  animation: sheen 8.5s linear infinite;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(38px) scale(0.98);
+  transition:
+    opacity 680ms ease,
+    transform 680ms cubic-bezier(0.18, 0.7, 0.2, 1);
+  transition-delay: var(--delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.section-shell {
+  position: relative;
+}
+
+.section-shell::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(57, 217, 211, 0), rgba(57, 217, 211, 0.45), rgba(255, 127, 67, 0));
+}
+
+.stack-spot {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(8px);
+  opacity: 0.55;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.stack-spot-left {
+  top: 4.5rem;
+  left: -4rem;
+  width: 20rem;
+  height: 20rem;
+  background: radial-gradient(circle at center, rgba(57, 217, 211, 0.25), rgba(57, 217, 211, 0));
+}
+
+.stack-spot-right {
+  top: 9rem;
+  right: -5rem;
+  width: 18rem;
+  height: 18rem;
+  background: radial-gradient(circle at center, rgba(255, 127, 67, 0.18), rgba(255, 127, 67, 0));
+}
+
+.stack-card-parallax {
+  transition: transform 220ms linear;
+  will-change: transform;
+}
+
+.stack-badge {
+  border: 1px solid rgba(152, 168, 190, 0.36);
+  background: rgba(8, 17, 31, 0.5);
+  transition:
+    transform 260ms ease,
+    border-color 260ms ease,
+    background-color 260ms ease;
+}
+
+.stack-badge:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 127, 67, 0.7);
+  background: rgba(255, 127, 67, 0.16);
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  35% {
+    transform: translate3d(-20px, 24px, 0);
+  }
+  70% {
+    transform: translate3d(14px, -20px, 0);
+  }
+}
+
+@keyframes sheen {
+  0% {
+    transform: translateX(-62%) rotate(8deg);
+  }
+  50% {
+    transform: translateX(16%) rotate(8deg);
+  }
+  100% {
+    transform: translateX(90%) rotate(8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-mesh,
+  .stack-spot,
+  .stack-card-parallax,
+  .orb,
+  .glow-card::after,
+  .reveal,
+  .stack-badge {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
 }
